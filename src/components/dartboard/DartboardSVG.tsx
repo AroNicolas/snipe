@@ -6,10 +6,12 @@ export const ALL_SECTORS = buildSectors();
 
 const sliceDeg = 360 / 20;
 const offsetDeg = -90 - sliceDeg / 2;
+const OUTER_RADIUS = R.DOUBLE_OUT + 30;
+const NUMBER_LABEL_RADIUS = (R.DOUBLE_OUT + OUTER_RADIUS) / 2;
 
 const NUMBER_LABELS = SECTORS_ORDER.map((value, i) => {
   const angle = offsetDeg + i * sliceDeg + sliceDeg / 2;
-  const pos = polarToCart(CX, CY, R.NUMBERS, angle);
+  const pos = polarToCart(CX, CY, NUMBER_LABEL_RADIUS, angle);
   return { value, ...pos };
 });
 
@@ -42,7 +44,7 @@ export function DartboardSVG({
       role="img"
     >
       {/* Outer surround */}
-      <circle cx={CX} cy={CY} r={R.DOUBLE_OUT + 14} fill="#111" stroke="#444" strokeWidth="2" />
+      <circle cx={CX} cy={CY} r={OUTER_RADIUS} fill="#111" stroke="#444" strokeWidth="2" />
 
       {/* All numbered sectors */}
       {ALL_SECTORS.map((s, i) => (
