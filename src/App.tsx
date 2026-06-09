@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import Home from "./pages/Home"
 import About from "./pages/About"
+import Dartboard from "./pages/Dartboard"
 
 export default function App() {
   return (
@@ -14,11 +15,16 @@ export default function App() {
           <Link to="/about" className="text-blue-500">
             About
           </Link>
+          
+          <Link to="/dartboard" className="text-blue-500">
+            Dartboard
+          </Link>
         </nav>
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/dartboard" element={<Dartboard />} />
         </Routes>
       </div>
     </BrowserRouter>
