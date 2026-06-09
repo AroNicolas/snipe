@@ -1,7 +1,7 @@
-export default function About() {
+export default function HowToPlay() {
   return (
     <div className="text-3xl font-bold text-green-500">
-      About Page
+      How to play Page
     </div>
   )
 }

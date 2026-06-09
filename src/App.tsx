@@ -1,32 +1,33 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
-import Home from "./pages/Home"
-import About from "./pages/About"
-import Dartboard from "./pages/Dartboard"
+import { useEffect, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import LoadingScreen from "./components/LoadingScreen";
+import Home from "./pages/Home";
+import HowToPlay from "./pages/HowToPlay";
+import Dartboard from "./pages/Dartboard";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeout(() => setLoading(false), 700);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-gray-100 p-6">
-        <nav className="mb-6 flex gap-4">
-          <Link to="/" className="text-blue-500">
-            Home
-          </Link>
+    <>
+      {loading && <LoadingScreen />}
 
-          <Link to="/about" className="text-blue-500">
-            About
-          </Link>
-          
-          <Link to="/dartboard" className="text-blue-500">
-            Dartboard
-          </Link>
-        </nav>
-
-        <Routes>
+      {!loading && (
+        <Routes location={location}>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/dartboard" element={<Dartboard />} />
+          <Route path="/how-to-play" element={<HowToPlay />} />
+          <Route path="/start" element={<Dartboard />} />
         </Routes>
-      </div>
-    </BrowserRouter>
-  )
+      )}
+    </>
+  );
 }
