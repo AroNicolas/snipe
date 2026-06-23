@@ -8,6 +8,7 @@ export default function IntroSection() {
               How to Play Darts
           </h1>
 
+          <div className="bg-emerald-950/40 border border-white/10 rounded-2xl p-5 md:p-8 transition-all shadow-lg backdrop-blur-sm">  
             <p className="text-gray-300 text-base md:text-lg leading-relaxed space-y-3">
             Darts is a precision sport where players throw small missiles at a circular board
             divided into numbered sections. The goal depends on the game mode, but accuracy,
@@ -31,6 +32,7 @@ export default function IntroSection() {
             approximately <b>2.37 meters (7 feet 9.25 inches)</b> from the dartboard.
             This standard distance ensures fairness in all competitive matches.
             </p>
+          </div>
         </section>
         
         <GameModesSection />
