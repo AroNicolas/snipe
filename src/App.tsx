@@ -3,7 +3,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import LoadingScreen from "./components/LoadingScreen";
 import Home from "./pages/Home";
 import HowToPlay from "./pages/HowToPlay";
-import Dartboard from "./pages/Dartboard";
+import GamePage from "./pages/Dartboard";
+import { GameSetupModal } from "./components/modals/GameSetupModal";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -13,7 +14,6 @@ export default function App() {
     const timer = setTimeout(() => {
       setTimeout(() => setLoading(false), 700);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -22,11 +22,15 @@ export default function App() {
       {loading && <LoadingScreen />}
 
       {!loading && (
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/how-to-play" element={<HowToPlay />} />
-          <Route path="/start" element={<Dartboard />} />
-        </Routes>
+        <>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/how-to-play" element={<HowToPlay />} />
+            <Route path="/start" element={<GamePage />} />
+          </Routes>
+
+          <GameSetupModal />
+        </>
       )}
     </>
   );

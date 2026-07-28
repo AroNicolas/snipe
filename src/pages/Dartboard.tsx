@@ -1,52 +1,56 @@
-import { useState } from "react";
-import type { HitEntry, Zone } from "../types/dartboard";
-import { ScoreStrip } from "../components/dartboard/ScoreStrip";
-import { HoverTooltip } from "../components/dartboard/HoverTooltip";
-import { DartboardSVG } from "../components/dartboard/DartboardSVG";
-import { HitLog } from "../components/dartboard/HitLog";
+import { Navigate } from "react-router-dom";
+import { useGameStore } from "../store/gameStore";
+import { GameDartboardSVG } from "../components/game/GameDartboardSVG";
+import { DartboardControls } from "../components/game/DartboardControls";
+import { CurrentTurnBanner } from "../components/game/CurrentTurnBanner";
+import { Scoreboard }        from "../components/scoreboard/Scoreboard";
+import { MatchProgress }     from "../components/scoreboard/MatchProgress";
+import { RoundEndModal }     from "../components/modals/RoundEndModal";
+import { MatchEndModal }     from "../components/modals/MatchEndModal";
+import Navbar from "../components/Navbar";
 
-let idSeq = 0;
+export default function GamePage() {
+  const config       = useGameStore((s) => s.config);
+  const throwDart    = useGameStore((s) => s.throwDart);
+  const roundEndInfo = useGameStore((s) => s.roundEndInfo);
+  const matchEndInfo = useGameStore((s) => s.matchEndInfo);
 
-export default function Dartboard() {
-  const [hoveredIdx,  setHoveredIdx]  = useState<number | null>(null);
-  const [hoveredBull, setHoveredBull] = useState<"bull" | "semi" | null>(null);
-  const [hits,        setHits]        = useState<HitEntry[]>([]);
-  const [total,       setTotal]       = useState(0);
+  if (!config) return <Navigate to="/" replace />;
 
-  function registerHit(pts: number, label: string, zone: Zone) {
-    const entry: HitEntry = { id: idSeq++, pts, label, zone };
-    setHits((prev) => [entry, ...prev].slice(0, 30));
-    setTotal((t) => t + pts);
-  }
+  const blocked = !!roundEndInfo || !!matchEndInfo;
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center gap-6 p-6 select-none">
+    <div className="min-h-screen bg-zinc-950 flex flex-col">
+      <Navbar />
 
-      <ScoreStrip total={total} hits={hits} />
+      <main className="flex-1 flex flex-col items-center gap-5 px-4 py-6">
 
-      <HoverTooltip hoveredIdx={hoveredIdx} hoveredBull={hoveredBull} />
+        <div className="w-full max-w-xl">
+          <MatchProgress />
+        </div>
 
-      <DartboardSVG
-        hoveredIdx={hoveredIdx}
-        hoveredBull={hoveredBull}
-        onSectorEnter={setHoveredIdx}
-        onSectorLeave={() => setHoveredIdx(null)}
-        onSectorClick={registerHit}
-        onBullEnter={setHoveredBull}
-        onBullLeave={() => setHoveredBull(null)}
-        onBullClick={registerHit}
-      />
+        <CurrentTurnBanner />
 
-      <HitLog hits={hits} />
+        <div className="flex flex-col xl:flex-row items-center xl:items-start gap-8 w-full max-w-5xl justify-center">
 
-      {hits.length > 0 && (
-        <button
-          onClick={() => { setHits([]); setTotal(0); }}
-          className="px-5 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-zinc-100 text-sm font-medium border border-zinc-700 transition-all"
-        >
-          Réinitialiser
-        </button>
-      )}
+          <div className="flex flex-col items-center gap-4">
+            <GameDartboardSVG
+              mode={config.mode}
+              onThrow={throwDart}
+              disabled={blocked}
+            />
+            <DartboardControls />
+          </div>
+
+          <div className="w-full max-w-lg xl:max-w-sm flex flex-col gap-4">
+            <Scoreboard />
+          </div>
+        </div>
+
+      </main>
+
+      <RoundEndModal />
+      <MatchEndModal />
     </div>
   );
 }

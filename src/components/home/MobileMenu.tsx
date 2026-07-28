@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 export default function MobileMenu({
   open,
   onClose,
+  onStart,
 }: {
   open: boolean;
   onClose: () => void;
+  onStart: () => void;
 }) {
   return (
     <>
@@ -33,7 +35,12 @@ export default function MobileMenu({
         <div className="flex flex-col gap-5 text-lg">
           <Link onClick={onClose} to="/">Home</Link>
           <Link onClick={onClose} to="/how-to-play">How to play</Link>
-          <Link onClick={onClose} to="/start">Start</Link>
+          <button
+            onClick={() => { onClose(); onStart(); }}
+            className="text-left font-medium"
+          >
+            Start
+          </button>
         </div>
       </div>
     </>

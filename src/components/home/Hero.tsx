@@ -1,7 +1,10 @@
 import heroImage from "../../assets/hero.jpg";
 import { Link } from "react-router-dom";
+import { useConfigStore } from "../../store/configStore";
 
 export default function Hero() {
+  const openModal = useConfigStore((s) => s.openModal);
+
   return (
     <section className="relative flex-1 flex items-center justify-center text-center px-6">
       <div
@@ -29,12 +32,12 @@ export default function Hero() {
             How to play
           </Link>
 
-          <Link
-            to="/start"
+          <button
+            onClick={openModal}
             className="px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-500 transition"
           >
             Start
-          </Link>
+          </button>
         </div>
       </div>
     </section>

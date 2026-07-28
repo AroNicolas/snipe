@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import MobileMenu from "./home/MobileMenu";
+import { useConfigStore } from "../store/configStore";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const openModal = useConfigStore((s) => s.openModal);
 
   return (
     <>
@@ -14,10 +16,15 @@ export default function Navbar() {
           <span className="text-lg md:text-xl font-bold">Snipe</span>
         </div>
 
-        <div className="hidden md:flex gap-8 font-medium">
+        <div className="hidden md:flex gap-8 font-medium items-center">
           <Link to="/">Home</Link>
           <Link to="/how-to-play">How to play</Link>
-          <Link to="/start">Start</Link>
+          <button
+            onClick={openModal}
+            className="px-4 py-1.5 bg-white text-emerald-800 font-semibold rounded-lg hover:bg-gray-100 transition"
+          >
+            Start
+          </button>
         </div>
 
         <button
@@ -28,7 +35,7 @@ export default function Navbar() {
         </button>
       </nav>
 
-      <MobileMenu open={open} onClose={() => setOpen(false)} />
+      <MobileMenu open={open} onClose={() => setOpen(false)} onStart={openModal} />
     </>
   );
 }

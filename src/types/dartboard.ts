@@ -1,4 +1,4 @@
-export type Zone = "bull" | "semi" | "triple" | "double" | "single";
+export type Zone = "bull" | "semi" | "triple" | "double" | "single" | "miss";
 
 export interface Sector {
   path: string;
