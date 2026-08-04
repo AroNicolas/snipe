@@ -8,6 +8,7 @@ import { MatchProgress }     from "../components/scoreboard/MatchProgress";
 import { RoundEndModal }     from "../components/modals/RoundEndModal";
 import { MatchEndModal }     from "../components/modals/MatchEndModal";
 import Navbar from "../components/Navbar";
+import PlayBackground from "../assets/playbackground.jpg";
 
 export default function GamePage() {
   const config       = useGameStore((s) => s.config);
@@ -20,37 +21,48 @@ export default function GamePage() {
   const blocked = !!roundEndInfo || !!matchEndInfo;
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1 flex flex-col items-center gap-5 px-4 py-6">
+    <main className="relative flex-1 flex flex-col items-center gap-5 px-4 py-6 overflow-hidden">
 
-        <div className="w-full max-w-xl">
-          <MatchProgress />
-        </div>
+    <div
+      className="absolute inset-0 bg-cover bg-center -z-10"
+      style={{ backgroundImage: `url(${PlayBackground})` }}
+    />
 
-        <CurrentTurnBanner />
+    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm -z-10" />
 
-        <div className="flex flex-col xl:flex-row items-center xl:items-start gap-8 w-full max-w-5xl justify-center">
 
-          <div className="flex flex-col items-center gap-4">
-            <GameDartboardSVG
-              mode={config.mode}
-              onThrow={throwDart}
-              disabled={blocked}
-            />
-            <DartboardControls />
-          </div>
-
-          <div className="w-full max-w-lg xl:max-w-sm flex flex-col gap-4">
-            <Scoreboard />
-          </div>
-        </div>
-
-      </main>
-
-      <RoundEndModal />
-      <MatchEndModal />
+    <div className="relative z-10 w-full max-w-xl">
+      <MatchProgress />
     </div>
-  );
+
+    <div className="relative z-10">
+      <CurrentTurnBanner />
+    </div>
+
+    <div className="relative z-10 flex flex-col xl:flex-row items-center xl:items-start gap-8 w-full max-w-5xl justify-center">
+
+      <div className="flex flex-col items-center gap-4">
+        <GameDartboardSVG
+          mode={config.mode}
+          onThrow={throwDart}
+          disabled={blocked}
+        />
+        <DartboardControls />
+      </div>
+
+      <div className="w-full max-w-lg xl:max-w-sm flex flex-col gap-4">
+        <Scoreboard />
+      </div>
+
+    </div>
+
+    <RoundEndModal />
+    <MatchEndModal />
+
+  </main>
+</div>
+);
 }

@@ -12,7 +12,7 @@ export function MatchProgress() {
   const team      = isTeamMode(config.playerCount);
   const needed    = Math.ceil(config.bestOf / 2);
   const labelFor  = (tid: 0 | 1) =>
-    team ? teamLabel(players, tid) : players.find((p) => p.teamId === tid)?.name ?? "";
+    team ? teamLabel(players, tid) : players.find((p) => p.teamId === tid)?.name ?? "None";
 
   return (
     <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4 w-full">

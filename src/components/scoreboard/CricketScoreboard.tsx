@@ -20,7 +20,7 @@ export function CricketScoreboard() {
   const numLabel = (n: CricketNumber) => n === 25 ? "Bull" : String(n);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4 w-full overflow-x-auto">
+    <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-2 w-full overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
           <tr className="text-zinc-400 text-xs uppercase tracking-wide">
